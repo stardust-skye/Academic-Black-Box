@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+node_modules/
+frontend/dist/
+data/local_demo.db
+.DS_Store

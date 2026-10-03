@@ -1,0 +1,12 @@
+# Optional: a local TimescaleDB (same engine as Tiger Data) for development.
+#   docker compose up -d     then   DATABASE_URL=postgresql://postgres:password@localhost:5432/blackbox
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: blackbox
+    ports: ["5432:5432"]
+    volumes: ["tsdata:/var/lib/postgresql/data"]
+volumes:
+  tsdata:

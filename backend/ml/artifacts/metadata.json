@@ -1,0 +1,631 @@
+{
+  "trained_at": "2026-10-03T18:56:55+00:00",
+  "sklearn_version": "1.8.0",
+  "dataset": {
+    "records": 800,
+    "at_risk_count": 222,
+    "at_risk_rate": 0.2775,
+    "n_candidate_features": 17,
+    "features": [
+      "course",
+      "class_year",
+      "credit_hours",
+      "work_hours_per_week",
+      "avg_weekly_study_hours",
+      "study_sessions_logged",
+      "materials_uploaded",
+      "practice_quizzes_taken",
+      "avg_practice_quiz_score",
+      "flashcards_reviewed",
+      "avg_days_started_before_exam",
+      "on_time_submission_rate",
+      "missed_deadlines",
+      "late_night_study_pct",
+      "attendance_rate",
+      "avg_sleep_hours",
+      "midterm_score"
+    ],
+    "train_size": 640,
+    "test_size": 160,
+    "missing_values": {
+      "work_hours_per_week": 24,
+      "avg_practice_quiz_score": 40,
+      "avg_sleep_hours": 40
+    }
+  },
+  "model": {
+    "type": "DecisionTreeClassifier",
+    "max_depth": 4,
+    "max_depth_param": 4,
+    "n_leaves": 10,
+    "class_weight": "balanced",
+    "min_samples_leaf": 30,
+    "random_state": 42,
+    "selected": "baseline",
+    "preprocessing": "median imputation (numeric) + one-hot (course, class_year)"
+  },
+  "metrics": {
+    "accuracy": 0.7875,
+    "precision": 0.578125,
+    "recall": 0.8409090909090909,
+    "f1": 0.6851851851851852,
+    "roc_auc": 0.8899882445141065,
+    "majority_baseline_accuracy": 0.725,
+    "confusion_matrix": {
+      "labels": [
+        "not at risk",
+        "at risk"
+      ],
+      "matrix": [
+        [
+          89,
+          27
+        ],
+        [
+          7,
+          37
+        ]
+      ],
+      "tn": 89,
+      "fp": 27,
+      "fn": 7,
+      "tp": 37
+    },
+    "evaluated_on": "held-out stratified 20% test split",
+    "model_selected": "baseline"
+  },
+  "tuning": {
+    "strategy": {
+      "search": "5-fold stratified CV x 3 repeats on the 640-record training split only",
+      "ranking": "highest mean CV F1 (at-risk class), then CV ROC-AUC, then the simpler tree",
+      "promotion_rule": "tuned replaces baseline only if hold-out F1 improves by >= 0.5 pts, recall drops <= 2 pts and ROC-AUC drops <= 0.005",
+      "test_set": "160 held-out records, not used in the search; used once to compare the two final models",
+      "grid": {
+        "max_depth": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "min_samples_leaf": [
+          5,
+          10,
+          20,
+          30,
+          40,
+          50
+        ]
+      },
+      "candidates_evaluated": 24
+    },
+    "baseline": {
+      "params": {
+        "max_depth": 4,
+        "min_samples_leaf": 30
+      },
+      "cv": {
+        "accuracy": 0.7791666666666667,
+        "precision": 0.5790188251620765,
+        "recall": 0.8074074074074075,
+        "f1": 0.6714334452136561,
+        "roc_auc": 0.8778903971593314
+      },
+      "test": {
+        "accuracy": 0.7875,
+        "precision": 0.578125,
+        "recall": 0.8409090909090909,
+        "f1": 0.6851851851851852,
+        "roc_auc": 0.8899882445141065,
+        "confusion_matrix": {
+          "labels": [
+            "not at risk",
+            "at risk"
+          ],
+          "matrix": [
+            [
+              89,
+              27
+            ],
+            [
+              7,
+              37
+            ]
+          ],
+          "tn": 89,
+          "fp": 27,
+          "fn": 7,
+          "tp": 37
+        }
+      }
+    },
+    "tuned": {
+      "params": {
+        "max_depth": 6,
+        "min_samples_leaf": 20
+      },
+      "cv": {
+        "accuracy": 0.796875,
+        "precision": 0.6040496408171674,
+        "recall": 0.8444973544973545,
+        "f1": 0.7005909983436357,
+        "roc_auc": 0.8807613426389724
+      },
+      "test": {
+        "accuracy": 0.74375,
+        "precision": 0.5211267605633803,
+        "recall": 0.8409090909090909,
+        "f1": 0.6434782608695652,
+        "roc_auc": 0.8457092476489029,
+        "confusion_matrix": {
+          "labels": [
+            "not at risk",
+            "at risk"
+          ],
+          "matrix": [
+            [
+              82,
+              34
+            ],
+            [
+              7,
+              37
+            ]
+          ],
+          "tn": 82,
+          "fp": 34,
+          "fn": 7,
+          "tp": 37
+        }
+      }
+    },
+    "top_candidates": [
+      {
+        "max_depth": 6,
+        "min_samples_leaf": 20,
+        "cv": {
+          "accuracy": 0.796875,
+          "precision": 0.6040496408171674,
+          "recall": 0.8444973544973545,
+          "f1": 0.7005909983436357,
+          "roc_auc": 0.8807613426389724
+        }
+      },
+      {
+        "max_depth": 5,
+        "min_samples_leaf": 20,
+        "cv": {
+          "accuracy": 0.796875,
+          "precision": 0.6040496408171674,
+          "recall": 0.8444973544973545,
+          "f1": 0.7005909983436357,
+          "roc_auc": 0.880572076033156
+        }
+      },
+      {
+        "max_depth": 5,
+        "min_samples_leaf": 10,
+        "cv": {
+          "accuracy": 0.8067708333333333,
+          "precision": 0.634726422623708,
+          "recall": 0.7850264550264552,
+          "f1": 0.6946647528792744,
+          "roc_auc": 0.8733697971162909
+        }
+      },
+      {
+        "max_depth": 3,
+        "min_samples_leaf": 10,
+        "cv": {
+          "accuracy": 0.796875,
+          "precision": 0.6058703338508771,
+          "recall": 0.8223809523809524,
+          "f1": 0.6937360686689931,
+          "roc_auc": 0.8703891356293181
+        }
+      },
+      {
+        "max_depth": 4,
+        "min_samples_leaf": 20,
+        "cv": {
+          "accuracy": 0.79375,
+          "precision": 0.6044885350502807,
+          "recall": 0.8167195767195767,
+          "f1": 0.6903885902815854,
+          "roc_auc": 0.8803956937301958
+        }
+      }
+    ],
+    "same_config": false,
+    "checks": {
+      "f1_gain": false,
+      "recall_kept": true,
+      "auc_kept": false
+    },
+    "promoted": false,
+    "selected": "baseline",
+    "improved": false,
+    "verdict": "TUNING DID NOT IMPROVE THE HOLD-OUT MODEL",
+    "reason": "Baseline kept: F1 did not improve by at least 0.5 points; ROC-AUC fell by more than 0.005."
+  },
+  "feature_importance": [
+    {
+      "feature": "midterm_score",
+      "importance": 0.5790580236719958
+    },
+    {
+      "feature": "on_time_submission_rate",
+      "importance": 0.13359953945695988
+    },
+    {
+      "feature": "late_night_study_pct",
+      "importance": 0.1286518776431771
+    },
+    {
+      "feature": "attendance_rate",
+      "importance": 0.09232612957856771
+    },
+    {
+      "feature": "avg_practice_quiz_score",
+      "importance": 0.04339648442040679
+    },
+    {
+      "feature": "avg_days_started_before_exam",
+      "importance": 0.022967945228892648
+    },
+    {
+      "feature": "credit_hours",
+      "importance": 0.0
+    },
+    {
+      "feature": "work_hours_per_week",
+      "importance": 0.0
+    },
+    {
+      "feature": "avg_weekly_study_hours",
+      "importance": 0.0
+    },
+    {
+      "feature": "study_sessions_logged",
+      "importance": 0.0
+    },
+    {
+      "feature": "materials_uploaded",
+      "importance": 0.0
+    },
+    {
+      "feature": "practice_quizzes_taken",
+      "importance": 0.0
+    },
+    {
+      "feature": "flashcards_reviewed",
+      "importance": 0.0
+    },
+    {
+      "feature": "missed_deadlines",
+      "importance": 0.0
+    },
+    {
+      "feature": "avg_sleep_hours",
+      "importance": 0.0
+    },
+    {
+      "feature": "course",
+      "importance": 0.0
+    },
+    {
+      "feature": "class_year",
+      "importance": 0.0
+    }
+  ],
+  "feature_importance_transformed": [
+    {
+      "feature": "num__midterm_score",
+      "importance": 0.5790580236719958
+    },
+    {
+      "feature": "num__on_time_submission_rate",
+      "importance": 0.13359953945695988
+    },
+    {
+      "feature": "num__late_night_study_pct",
+      "importance": 0.1286518776431771
+    },
+    {
+      "feature": "num__attendance_rate",
+      "importance": 0.09232612957856771
+    },
+    {
+      "feature": "num__avg_practice_quiz_score",
+      "importance": 0.04339648442040679
+    },
+    {
+      "feature": "num__avg_days_started_before_exam",
+      "importance": 0.022967945228892648
+    }
+  ],
+  "tree_text": "|--- num__midterm_score <= 64.50\n|   |--- num__on_time_submission_rate <= 0.80\n|   |   |--- num__avg_days_started_before_exam <= 2.55\n|   |   |   |--- num__midterm_score <= 55.50\n|   |   |   |   |--- class: 1\n|   |   |   |--- num__midterm_score >  55.50\n|   |   |   |   |--- class: 1\n|   |   |--- num__avg_days_started_before_exam >  2.55\n|   |   |   |--- class: 1\n|   |--- num__on_time_submission_rate >  0.80\n|   |   |--- num__late_night_study_pct <= 0.37\n|   |   |   |--- num__avg_practice_quiz_score <= 67.15\n|   |   |   |   |--- class: 1\n|   |   |   |--- num__avg_practice_quiz_score >  67.15\n|   |   |   |   |--- class: 0\n|   |   |--- num__late_night_study_pct >  0.37\n|   |   |   |--- class: 1\n|--- num__midterm_score >  64.50\n|   |--- num__attendance_rate <= 0.78\n|   |   |--- class: 1\n|   |--- num__attendance_rate >  0.78\n|   |   |--- num__late_night_study_pct <= 0.35\n|   |   |   |--- num__avg_days_started_before_exam <= 2.45\n|   |   |   |   |--- class: 0\n|   |   |   |--- num__avg_days_started_before_exam >  2.45\n|   |   |   |   |--- class: 0\n|   |   |--- num__late_night_study_pct >  0.35\n|   |   |   |--- class: 0\n",
+  "ranges": {
+    "credit_hours": {
+      "min": 12.0,
+      "p25": 13.0,
+      "median": 15.0,
+      "p75": 16.0,
+      "max": 18.0,
+      "mean": 14.78875
+    },
+    "work_hours_per_week": {
+      "min": 0.0,
+      "p25": 0.0,
+      "median": 2.0,
+      "p75": 12.0,
+      "max": 35.0,
+      "mean": 6.525773195876289
+    },
+    "avg_weekly_study_hours": {
+      "min": 0.5,
+      "p25": 2.7,
+      "median": 4.2,
+      "p75": 5.7,
+      "max": 11.4,
+      "mean": 4.2955000000000005
+    },
+    "study_sessions_logged": {
+      "min": 3.0,
+      "p25": 23.0,
+      "median": 40.0,
+      "p75": 55.0,
+      "max": 105.0,
+      "mean": 40.57
+    },
+    "materials_uploaded": {
+      "min": 0.0,
+      "p25": 5.0,
+      "median": 8.0,
+      "p75": 12.0,
+      "max": 22.0,
+      "mean": 8.2575
+    },
+    "practice_quizzes_taken": {
+      "min": 0.0,
+      "p25": 8.0,
+      "median": 13.0,
+      "p75": 19.0,
+      "max": 41.0,
+      "mean": 13.64
+    },
+    "avg_practice_quiz_score": {
+      "min": 40.0,
+      "p25": 67.7,
+      "median": 74.6,
+      "p75": 81.4,
+      "max": 100.0,
+      "mean": 74.86421052631579
+    },
+    "flashcards_reviewed": {
+      "min": 0.0,
+      "p25": 103.75,
+      "median": 187.0,
+      "p75": 271.0,
+      "max": 639.0,
+      "mean": 191.18375
+    },
+    "avg_days_started_before_exam": {
+      "min": 0.0,
+      "p25": 1.2,
+      "median": 3.0,
+      "p75": 4.6,
+      "max": 12.1,
+      "mean": 3.1310000000000002
+    },
+    "on_time_submission_rate": {
+      "min": 0.51,
+      "p25": 0.77,
+      "median": 0.83,
+      "p75": 0.9,
+      "max": 1.0,
+      "mean": 0.831
+    },
+    "missed_deadlines": {
+      "min": 0.0,
+      "p25": 1.0,
+      "median": 2.0,
+      "p75": 3.0,
+      "max": 7.0,
+      "mean": 2.07
+    },
+    "late_night_study_pct": {
+      "min": 0.0,
+      "p25": 0.19,
+      "median": 0.28,
+      "p75": 0.35,
+      "max": 0.64,
+      "mean": 0.27295
+    },
+    "attendance_rate": {
+      "min": 0.59,
+      "p25": 0.8,
+      "median": 0.86,
+      "p75": 0.92,
+      "max": 1.0,
+      "mean": 0.8585625
+    },
+    "avg_sleep_hours": {
+      "min": 3.5,
+      "p25": 5.6,
+      "median": 6.2,
+      "p75": 6.8,
+      "max": 8.4,
+      "mean": 6.179868421052631
+    },
+    "midterm_score": {
+      "min": 27.0,
+      "p25": 58.0,
+      "median": 66.0,
+      "p75": 76.0,
+      "max": 100.0,
+      "mean": 66.3075
+    }
+  },
+  "test_ids": [
+    "S1166",
+    "S1373",
+    "S1536",
+    "S1297",
+    "S1214",
+    "S1627",
+    "S1147",
+    "S1084",
+    "S1567",
+    "S1351",
+    "S1417",
+    "S1275",
+    "S1681",
+    "S1086",
+    "S1707",
+    "S1545",
+    "S1606",
+    "S1113",
+    "S1190",
+    "S1646",
+    "S1557",
+    "S1779",
+    "S1521",
+    "S1653",
+    "S1143",
+    "S1274",
+    "S1528",
+    "S1008",
+    "S1458",
+    "S1438",
+    "S1258",
+    "S1026",
+    "S1781",
+    "S1101",
+    "S1437",
+    "S1793",
+    "S1074",
+    "S1461",
+    "S1472",
+    "S1030",
+    "S1046",
+    "S1138",
+    "S1640",
+    "S1771",
+    "S1463",
+    "S1455",
+    "S1027",
+    "S1379",
+    "S1435",
+    "S1195",
+    "S1429",
+    "S1495",
+    "S1652",
+    "S1399",
+    "S1650",
+    "S1267",
+    "S1669",
+    "S1658",
+    "S1709",
+    "S1705",
+    "S1019",
+    "S1352",
+    "S1186",
+    "S1578",
+    "S1029",
+    "S1754",
+    "S1682",
+    "S1482",
+    "S1701",
+    "S1277",
+    "S1631",
+    "S1294",
+    "S1670",
+    "S1016",
+    "S1717",
+    "S1577",
+    "S1603",
+    "S1388",
+    "S1224",
+    "S1333",
+    "S1796",
+    "S1383",
+    "S1730",
+    "S1475",
+    "S1180",
+    "S1657",
+    "S1634",
+    "S1126",
+    "S1148",
+    "S1538",
+    "S1601",
+    "S1039",
+    "S1121",
+    "S1432",
+    "S1746",
+    "S1279",
+    "S1491",
+    "S1513",
+    "S1737",
+    "S1543",
+    "S1093",
+    "S1654",
+    "S1685",
+    "S1700",
+    "S1080",
+    "S1635",
+    "S1484",
+    "S1485",
+    "S1232",
+    "S1628",
+    "S1206",
+    "S1412",
+    "S1177",
+    "S1411",
+    "S1584",
+    "S1144",
+    "S1591",
+    "S1376",
+    "S1089",
+    "S1088",
+    "S1098",
+    "S1301",
+    "S1564",
+    "S1756",
+    "S1223",
+    "S1283",
+    "S1044",
+    "S1336",
+    "S1137",
+    "S1185",
+    "S1618",
+    "S1534",
+    "S1001",
+    "S1483",
+    "S1285",
+    "S1347",
+    "S1489",
+    "S1263",
+    "S1226",
+    "S1318",
+    "S1053",
+    "S1375",
+    "S1496",
+    "S1448",
+    "S1398",
+    "S1387",
+    "S1632",
+    "S1066",
+    "S1477",
+    "S1527",
+    "S1298",
+    "S1188",
+    "S1256",
+    "S1504",
+    "S1572",
+    "S1327",
+    "S1296",
+    "S1247",
+    "S1733",
+    "S1363"
+  ]
+}
